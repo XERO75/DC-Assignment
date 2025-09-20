@@ -9,22 +9,17 @@ export const useSearch = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // 更新查询并触发防抖
   const updateQuery = useCallback((newQuery: string) => {
     setQuery(newQuery);
     
-    // 清除之前的定时器
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
     }
     
-    // 设置新的定时器
     debounceTimerRef.current = setTimeout(() => {
       setDebouncedQuery(newQuery);
-    }, 300); // 300ms防抖
+    }, 300);
   }, []);
-
-  // 使用React Query进行数据获取
   const {
     data,
     isLoading,
@@ -33,33 +28,30 @@ export const useSearch = () => {
     refetch,
   } = useQuery({
     queryKey: ['search', debouncedQuery],
-    queryFn: () => searchTools({ query: debouncedQuery, noThrottling: true }),
-    enabled: debouncedQuery.length > 0, // 只有查询不为空时才执行
-    staleTime: 5 * 60 * 1000, // 5分钟内数据被认为是新鲜的
-    retry: 1, // 失败时重试1次
+    queryFn: () => searchTools({ query: debouncedQuery, noThrottling: true }), //TODO: change to true to disable throttling
+    enabled: debouncedQuery.length > 0,
+    staleTime: 5 * 60 * 1000,
+    retry: 0,
   });
 
-  // 计算搜索状态
   const searchStatus = useMemo((): SearchStatus => {
     if (isLoading) return SearchStatus.LOADING;
     if (isError) return SearchStatus.ERROR;
     if (data && data.length === 0) return SearchStatus.EMPTY;
     if (data && data.length > 0) return SearchStatus.SUCCESS;
+    if (debouncedQuery.length > 0 && !isLoading && !isError && !data) return SearchStatus.EMPTY;
     return SearchStatus.IDLE;
-  }, [isLoading, isError, data]);
+  }, [isLoading, isError, data, debouncedQuery]);
 
-  // 获取搜索结果
   const allResults: SearchResult[] = useMemo(() => {
     return data || [];
   }, [data]);
 
-  // 根据选择的分类过滤结果
   const results: SearchResult[] = useMemo(() => {
     if (!selectedCategory) {
       return allResults;
     }
     
-    // 根据固定分类标签过滤结果
     return allResults.filter(result => {
       const category = result.category.toLowerCase();
       switch (selectedCategory.toLowerCase()) {
@@ -77,9 +69,20 @@ export const useSearch = () => {
     });
   }, [allResults, selectedCategory]);
 
-  // 清除搜索
+  // 基于过滤后的结果重新计算状态
+  const finalSearchStatus = useMemo((): SearchStatus => {
+    if (searchStatus === SearchStatus.LOADING) return SearchStatus.LOADING;
+    if (searchStatus === SearchStatus.ERROR) return SearchStatus.ERROR;
+    if (searchStatus === SearchStatus.EMPTY) return SearchStatus.EMPTY;
+    if (searchStatus === SearchStatus.SUCCESS) {
+      // 如果有原始数据但过滤后为空，显示EMPTY
+      if (results.length === 0) return SearchStatus.EMPTY;
+      return SearchStatus.SUCCESS;
+    }
+    return searchStatus;
+  }, [searchStatus, results]);
+
   const clearSearch = useCallback(() => {
-    // 清除防抖定时器
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
       debounceTimerRef.current = null;
@@ -90,22 +93,17 @@ export const useSearch = () => {
     setSelectedCategory('');
   }, []);
 
-  // 重新搜索
   const retrySearch = useCallback(() => {
     refetch();
   }, [refetch]);
 
-  // 选择分类
   const selectCategory = useCallback((category: string) => {
     setSelectedCategory(category);
   }, []);
 
-  // 清除分类筛选
   const clearCategoryFilter = useCallback(() => {
     setSelectedCategory('');
   }, []);
-
-  // 组件卸载时清理定时器
   useEffect(() => {
     return () => {
       if (debounceTimerRef.current) {
@@ -119,7 +117,7 @@ export const useSearch = () => {
     updateQuery,
     clearSearch,
     results,
-    searchStatus,
+    searchStatus: finalSearchStatus,
     isLoading,
     isError,
     error: error?.message,

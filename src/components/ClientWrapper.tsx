@@ -16,8 +16,8 @@ export default function ClientWrapper() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-gray-100">
-        <main className="py-12">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <main className="w-full">
           <DynamicSearchContainer />
         </main>
       </div>

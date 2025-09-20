@@ -1,0 +1,42 @@
+import React from 'react';
+
+export interface TagIconProps {
+  size?: number | string;
+  color?: string;
+  className?: string;
+}
+
+const TagIcon: React.FC<TagIconProps> = ({
+  size = 20,
+  color = '#6833FF',
+  className = '',
+}) => {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      style={{ color }}
+    >
+      <path
+        d="M10.272 4.56607C11.1087 4.5326 11.9212 4.85029 12.5133 5.44235L16.8062 9.73528C17.9778 10.9069 17.9778 12.8063 16.8062 13.9779L13.9778 16.8063C12.8062 17.9779 10.9067 17.9779 9.73512 16.8063L5.44219 12.5134C4.85013 11.9214 4.53244 11.1088 4.56591 10.2722L4.74848 5.70787C4.76932 5.18698 5.18682 4.76948 5.70771 4.74864L10.272 4.56607Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        fill="none"
+      />
+      <circle
+        cx="8.83788"
+        cy="8.47275"
+        r="0.625"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        fill="none"
+      />
+    </svg>
+  );
+};
+
+export default TagIcon;

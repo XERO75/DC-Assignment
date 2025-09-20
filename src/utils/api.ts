@@ -1,16 +1,13 @@
 import axios, { AxiosResponse } from 'axios';
 import { ApiResponse, SearchParams } from '@/types';
 
-// API基础URL - 从环境变量获取
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://frontend-test-api.digitalcreative.cn';
+const DEFAULT_TIMEOUT = 3000;
 
-// 创建axios实例
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000, // 10秒超时
+  timeout: DEFAULT_TIMEOUT,
 });
-
-// 搜索工具API
 export const searchTools = async (params: SearchParams): Promise<ApiResponse> => {
   try {
     const response: AxiosResponse<ApiResponse> = await apiClient.get('/', {
@@ -22,28 +19,26 @@ export const searchTools = async (params: SearchParams): Promise<ApiResponse> =>
     
     return response.data;
   } catch (error) {
-    // 处理不同类型的错误
     if (axios.isAxiosError(error)) {
       if (error.code === 'ECONNABORTED') {
-        throw new Error('请求超时，请稍后重试');
+        throw new Error('Request timeout, please try again later');
       }
       if (error.response?.status === 404) {
-        throw new Error('未找到相关工具');
+        throw new Error('No related tools found');
       }
       if (error.response && error.response.status >= 500) {
-        throw new Error('服务器错误，请稍后重试');
+        throw new Error('Server error, please try again later');
       }
     }
-    throw new Error('网络错误，请检查网络连接');
+    throw new Error('Network error, please check your network connection');
   }
 };
 
-// 模拟错误请求（用于测试错误状态）
 export const searchToolsWithError = async (params: SearchParams): Promise<ApiResponse> => {
   const response = await apiClient.get('/', {
     params: {
       search: params.query,
-      'no-throttling': false, // 设置为false来模拟错误
+      'no-throttling': false, 
     },
   });
   
