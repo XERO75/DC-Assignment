@@ -16,7 +16,7 @@ A modern search application built with Next.js and React Query for discovering p
 - **Performance Optimized**: Code splitting, intelligent caching, error boundaries
 - **Comprehensive Testing**: 17 unit tests with 59.83% coverage
 - **Type Safety**: Full TypeScript support with strict type checking
-- [TODO] **Animation**: might be using GSAP
+
 
 ## 🛠 Tech Stack
 
@@ -161,9 +161,19 @@ npm run test:coverage # Coverage report
 - Optimized resource loading
 - Test-driven development
 
+## 📋 TODO
+
+- [ ] Implement CI/CD pipeline with GitHub Actions
+  - [ ] Automated test execution
+  - [ ] Code quality checks
+  - [ ] Automatic deployment to Vercel
+  - [ ] Test coverage reporting
+- [ ] Animation: might be using GSAP
+
 ## 📚 Documentation
 
 - [Testing Guide](./TESTING.md) - Comprehensive testing documentation
 - [Environment Setup](./ENV_SETUP.md) - Environment configuration guide
+- [CI/CD Setup](./CICD.md) - GitHub Actions workflow configuration
 - [Project Summary](./PROJECT_SUMMARY.md) - Detailed project overview
 
