@@ -69,13 +69,11 @@ export const useSearch = () => {
     });
   }, [allResults, selectedCategory]);
 
-  // 基于过滤后的结果重新计算状态
   const finalSearchStatus = useMemo((): SearchStatus => {
     if (searchStatus === SearchStatus.LOADING) return SearchStatus.LOADING;
     if (searchStatus === SearchStatus.ERROR) return SearchStatus.ERROR;
     if (searchStatus === SearchStatus.EMPTY) return SearchStatus.EMPTY;
     if (searchStatus === SearchStatus.SUCCESS) {
-      // 如果有原始数据但过滤后为空，显示EMPTY
       if (results.length === 0) return SearchStatus.EMPTY;
       return SearchStatus.SUCCESS;
     }

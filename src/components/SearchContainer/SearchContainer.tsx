@@ -34,6 +34,21 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className = '' }) => 
       selectCategory(category);
     }
   };
+
+  const getStatusMessage = () => {
+    switch (searchStatus) {
+      case SearchStatus.LOADING:
+        return SEARCH_MESSAGES.LOADING;
+      case SearchStatus.EMPTY:
+        return SEARCH_MESSAGES.EMPTY;
+      case SearchStatus.ERROR:
+        return SEARCH_MESSAGES.ERROR;
+      case SearchStatus.SUCCESS:
+        return SEARCH_MESSAGES.SUCCESS(results.length);
+      default:
+        return SEARCH_MESSAGES.EMPTY;
+    }
+  };
   const renderContent = () => {
     switch (searchStatus) {
       case SearchStatus.LOADING:
@@ -135,11 +150,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ className = '' }) => 
           <div className={`text-base font-medium ${
             searchStatus === SearchStatus.ERROR ? 'text-error' : 'text-paragraph'
           }`}>
-            {searchStatus === SearchStatus.LOADING ? SEARCH_MESSAGES.LOADING : 
-             searchStatus === SearchStatus.EMPTY ? SEARCH_MESSAGES.EMPTY : 
-             searchStatus === SearchStatus.ERROR ? SEARCH_MESSAGES.ERROR :
-             searchStatus === SearchStatus.SUCCESS ? SEARCH_MESSAGES.SUCCESS(results.length) :
-             SEARCH_MESSAGES.EMPTY}
+            {getStatusMessage()}
           </div>
         </div>
       </div>

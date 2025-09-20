@@ -1,3 +1,4 @@
+// Search Result Interface
 export interface SearchResult {
   title: string;
   description: string;
@@ -6,8 +7,10 @@ export interface SearchResult {
   category: string;
 }
 
+// API Response Type
 export type ApiResponse = SearchResult[];
 
+// Search Status Enum
 export enum SearchStatus {
   IDLE = 'idle',
   LOADING = 'loading',
@@ -16,10 +19,13 @@ export enum SearchStatus {
   EMPTY = 'empty'
 }
 
+// Search Parameters Interface
 export interface SearchParams {
   query: string;
   noThrottling?: boolean;
 }
+
+// Search Bar Component Props
 export interface SearchBarProps {
   onSearch: (query: string) => void;
   isLoading: boolean;
@@ -27,6 +33,7 @@ export interface SearchBarProps {
   placeholder?: string;
 }
 
+// Tag Component Props
 export interface TagProps {
   label: string;
   isSelected?: boolean;
@@ -34,11 +41,20 @@ export interface TagProps {
   variant?: 'default' | 'selected' | 'disabled';
 }
 
+// Result Item Component Props
 export interface ResultItemProps {
   result: SearchResult;
   onTagClick?: (tag: string) => void;
 }
 
+// Search Container Component Props
 export interface SearchContainerProps {
   className?: string;
+}
+
+// Category Filter Component Props
+export interface CategoryFilterProps {
+  categories: readonly string[];
+  activeCategory?: string;
+  onCategoryChange: (category: string) => void;
 }

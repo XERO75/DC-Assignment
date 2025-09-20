@@ -4,8 +4,17 @@ import Image from 'next/image';
 import { RedirectIcon } from '@/components/Icons';
 
 const ResultItem: React.FC<ResultItemProps> = ({ result }) => {
+  const handleClick = () => {
+    if (result.url) {
+      window.open(result.url, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
-    <div className="flex items-center gap-5 p-3 hover:bg-gray-100 rounded-xl transition-colors duration-200 cursor-pointer group">
+    <div 
+      className="flex items-center gap-5 p-3 hover:bg-gray-100 rounded-xl transition-colors duration-200 cursor-pointer group"
+      onClick={handleClick}
+    >
       <div className="flex-shrink-0 w-19 h-19">
         {result.image ? (
           <div className="w-19 h-19 bg-white rounded-lg flex items-center justify-center">

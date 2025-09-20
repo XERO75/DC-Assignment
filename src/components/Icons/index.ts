@@ -1,5 +1,4 @@
 export { default as Icon } from './Icon';
-export { default as CloseIcon } from './CloseIcon';
 export { default as TagIcon } from './TagIcon';
 export { default as SearchIcon } from './SearchIcon';
 export { default as RedirectIcon } from './RedirectIcon';
