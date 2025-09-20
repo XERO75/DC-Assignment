@@ -9,8 +9,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "DC 编程工具搜索",
-  description: "搜索DC使用的编程工具和框架",
+  title: "DC Assignment",
+  description: "a test project for DC frontend testing",
 };
 
 export default function RootLayout({

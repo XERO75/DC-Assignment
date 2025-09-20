@@ -1,48 +1,48 @@
-# 环境变量配置说明
+# Environment Variables Configuration
 
-## 环境变量文件
+## Environment Files
 
-项目支持以下环境变量文件：
+The project supports the following environment variable files:
 
-- `.env.local` - 本地开发环境（优先级最高）
-- `.env.development` - 开发环境
-- `.env.production` - 生产环境
-- `.env.example` - 环境变量示例文件
+- `.env.local` - Local development environment (highest priority)
+- `.env.development` - Development environment
+- `.env.production` - Production environment
+- `.env.example` - Environment variables example file
 
-## 配置说明
+## Configuration
 
-### API配置
+### API Configuration
 
 ```bash
-# API基础URL
+# API Base URL
 NEXT_PUBLIC_API_BASE_URL=https://frontend-test-api.digitalcreative.cn
 ```
 
-## 使用方法
+## Usage
 
-### 开发环境
+### Development Environment
 ```bash
 npm run dev
-# 或
+# or
 npm run dev:test
 ```
 
-### 生产环境
+### Production Environment
 ```bash
 npm run build:production
 npm run start:production
 ```
 
-## 环境变量优先级
+## Environment Variables Priority
 
-Next.js 按以下顺序加载环境变量：
+Next.js loads environment variables in the following order:
 
-1. `.env.local` (总是被加载，除了 test 环境)
-2. `.env.development`, `.env.production`, `.env.test` (根据 NODE_ENV)
+1. `.env.local` (always loaded, except in test environment)
+2. `.env.development`, `.env.production`, `.env.test` (based on NODE_ENV)
 3. `.env`
 
-## 注意事项
+## Important Notes
 
-- 以 `NEXT_PUBLIC_` 开头的环境变量会在客户端代码中暴露
-- 敏感信息不要使用 `NEXT_PUBLIC_` 前缀
-- `.env.local` 文件应该添加到 `.gitignore` 中
+- Environment variables starting with `NEXT_PUBLIC_` will be exposed in client-side code
+- Do not use `NEXT_PUBLIC_` prefix for sensitive information
+- `.env.local` file should be added to `.gitignore`
